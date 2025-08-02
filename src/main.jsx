@@ -6,7 +6,8 @@ import App from "./App.jsx";
 import Login from "./components/Login.jsx";
 import Signup from "./components/Signup.jsx";
 import Error from "./components/Error.jsx";
-import Body from "./components/Body.jsx";
+import Feed from "./components/Feed.jsx";
+import Profile from "./components/Profile.jsx";
 
 const routes = createBrowserRouter([
   {
@@ -15,8 +16,9 @@ const routes = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Body />,
+        element: <Feed />,
       },
+
       {
         path: "/login",
         element: <Login />,
@@ -24,6 +26,10 @@ const routes = createBrowserRouter([
       {
         path: "/signup",
         element: <Signup />,
+      },
+      {
+        path: "/userprofile",
+        element: <Profile />,
       },
     ],
     errorElement: <Error />,
