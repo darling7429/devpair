@@ -1,7 +1,10 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
-  return <div>Welcome to profile page!!! you can update your profile here</div>;
+  const user = useSelector((store) => store.user);
+
+  return <>{user ? "hello" + user.firstName : "nouser"}</>;
 };
 
 export default Profile;

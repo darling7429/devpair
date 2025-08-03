@@ -1,11 +1,18 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { default_url } from "../utils/constants";
+import axios from "axios";
+import { removeuser } from "../redux/slices/userslice";
 const Header = () => {
-  const user = useSelector((store) => store?.user);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector((store) => store.user);
 
-  const handlelogout = () => {
-    alert("sucessfully logged out ");
+  const handlelogout = async () => {
+    await axios.post(default_url + "/logout", {}, { withCredentials: true });
+    dispatch(removeuser());
+    navigate("/login");
   };
 
   return (

@@ -4,8 +4,10 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { adduser } from "../redux/slices/userslice";
 import { useNavigate } from "react-router-dom";
+import { default_url } from "../utils/constants";
 
 const Login = () => {
+  const user = useSelector((store) => store.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [pass, showpass] = useState(false);
@@ -13,6 +15,9 @@ const Login = () => {
   const [password, setpassword] = useState("");
   const [loading, setloading] = useState(false);
   //const [error, seterror] = useState("");
+  if (user) {
+    return null
+  }
   const handleemail = (e) => {
     setemail(e.target.value);
   };
@@ -21,7 +26,7 @@ const Login = () => {
   };
   const handleform = async (e) => {
     setloading(true);
-    console.log("form submitted");
+
     e.preventDefault();
     try {
       const isvalid = validation(email, password);
@@ -31,24 +36,22 @@ const Login = () => {
           password: password,
         };
 
-        setTimeout(async () => {
-          const res = await axios.post("http://localhost:3000/login", data, {
-            withCredentials: true,
-          });
-          console.log(res);
-          if (res?.data) {
-            dispatch(adduser(res.data));
-            setemail("");
-            setpassword("");
-            setloading(false);
-            navigate("/");
-          }
-        }, 3000);
+        const res = await axios.post(default_url + "/login", data, {
+          withCredentials: true,
+        });
+
+        if (res?.data) {
+          dispatch(adduser(res.data));
+
+          setloading(false);
+          navigate("/");
+        }
       } else {
-        alert("please check ylour credentials");
+        alert("please check your credentials");
       }
     } catch (error) {
       alert(error?.response?.data);
+      setloading(false);
     }
   };
 
