@@ -1,11 +1,17 @@
 import { useState } from "react";
 import { validation } from "./utils/validation";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { adduser } from "../redux/slices/userslice";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [pass, showpass] = useState(false);
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
+  const [loading, setloading] = useState(false);
   //const [error, seterror] = useState("");
   const handleemail = (e) => {
     setemail(e.target.value);
@@ -14,6 +20,8 @@ const Login = () => {
     setpassword(e.target.value);
   };
   const handleform = async (e) => {
+    setloading(true);
+    console.log("form submitted");
     e.preventDefault();
     try {
       const isvalid = validation(email, password);
@@ -22,74 +30,89 @@ const Login = () => {
           emailId: email,
           password: password,
         };
-        const res = await axios.post("http://localhost:3000/login", data, {
-          withCredentials: true,
-        });
 
-        console.log(res);
-        //window.location.href = "/";
-
-        //   setemail("");
-        //   setpassword("");
+        setTimeout(async () => {
+          const res = await axios.post("http://localhost:3000/login", data, {
+            withCredentials: true,
+          });
+          console.log(res);
+          if (res?.data) {
+            dispatch(adduser(res.data));
+            setemail("");
+            setpassword("");
+            setloading(false);
+            navigate("/");
+          }
+        }, 3000);
+      } else {
+        alert("please check ylour credentials");
       }
     } catch (error) {
-      alert(error.response.data)
+      alert(error?.response?.data);
     }
   };
 
   return (
     <>
-      <div className=" w-[100%]   flex flex-col items-center justify-center">
-        <form
-          className="bg-gray-300 w-[25%]     text-center rounded-lg p-2 mt-[9%]"
-          onSubmit={handleform}>
-          <div className="form_header pt-2">
-            <p className="text-2xl font-bold capitalize">DevPair Login form</p>
-          </div>
-          <div className="form-body flex flex-col w-[70%] mx-auto relative ">
-            <input
-              required
-              type="text"
-              placeholder="EmailId"
-              className="my-10 p-1.5 rounded-lg border-none outline-none"
-              value={email}
-              onChange={handleemail}
-            />
-            <input
-              type={pass ? "text" : "password"}
-              placeholder="Password"
-              className=" p-1.5 rounded-lg border-none outline-none"
-              value={password}
-              onChange={handlepassword}
-              required
-            />
-            {password ? (
-              <span
-                className="absolute top-[80%] left-[80%] cursor-pointer"
-                onClick={() => {
-                  showpass(!pass);
-                }}>
-                {pass ? "hide" : "show"}
-              </span>
-            ) : (
-              ""
-            )}
-          </div>
+      {loading ? (
+        <p>loading </p>
+      ) : (
+        <div className=" w-[100%]   flex flex-col items-center justify-center">
+          <form
+            className="bg-gray-300 w-[25%]     text-center rounded-lg p-2 mt-[9%]"
+            onSubmit={handleform}>
+            <div className="form_header pt-2">
+              <p className="text-2xl font-bold capitalize">
+                DevPair Login form
+              </p>
+            </div>
+            <div className="form-body flex flex-col w-[70%] mx-auto relative ">
+              <input
+                required
+                type="email"
+                placeholder="EmailId"
+                className="my-10 p-1.5 rounded-lg border-none outline-none"
+                value={email}
+                onChange={handleemail}
+              />
+              <input
+                type={pass ? "text" : "password"}
+                placeholder="Password"
+                className=" p-1.5 rounded-lg border-none outline-none"
+                value={password}
+                onChange={handlepassword}
+                required
+              />
+              {password ? (
+                <span
+                  className="absolute top-[80%] left-[80%] cursor-pointer"
+                  onClick={() => {
+                    showpass(!pass);
+                  }}>
+                  {pass ? "hide" : "show"}
+                </span>
+              ) : (
+                ""
+              )}
+            </div>
 
-          <div className="my-5">
-            <button className=" btn  btn-success p-2 text-xl rounded-lg text-white ">
-              Login Here
-            </button>
-            <p className=" w-[70%] mx-auto mt-4 ">
-              By tapping on login, you agree to our{" "}
-              <a href="/terms" target="_blank">
-                Terms and Conditions
-              </a>
-              .
-            </p>
-          </div>
-        </form>
-      </div>
+            <div className="my-5">
+              <button
+                type="submit"
+                className=" btn  btn-success p-2 text-xl rounded-lg text-white ">
+                Login Here
+              </button>
+              <p className=" w-[70%] mx-auto mt-4 ">
+                By tapping on login, you agree to our{" "}
+                <a href="/terms" target="_blank">
+                  Terms and Conditions
+                </a>
+                .
+              </p>
+            </div>
+          </form>
+        </div>
+      )}
     </>
   );
 };
