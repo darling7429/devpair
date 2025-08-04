@@ -17,16 +17,16 @@ const Header = () => {
 
   return (
     <div className="w-[100%]">
-      <div className="navbar bg-base-900 shadow-sm">
+      <div className="navbar shadow-sm bg-black">
         <div className="flex-1">
-          <a className="btn btn-ghost text-xl" href="#">
-            DevPair
-          </a>
+          <Link className="btn btn-ghost text-xl text-white" to="/">
+           🧑🏼‍💻 DevPair
+          </Link>
         </div>
         {user ? (
           <div className="flex items-center gap-2 mx-16">
             {user ? (
-              <p>
+              <p className="text-white">
                 welcome <b>{user.firstName + " " + user.lastName}</b>
               </p>
             ) : (

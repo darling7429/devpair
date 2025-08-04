@@ -1,44 +1,46 @@
 import { Outlet } from "react-router-dom";
 import Header from "./components/Header";
-import { default_url } from "./utils/constants";
-import { useDispatch, useSelector } from "react-redux";
-import { adduser } from "./redux/slices/userslice";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import axios from "axios";
-
+import store from "./redux/store.js";
+import Feed from "./components/Feed.jsx";
+import Login from "./components/Login.jsx";
+import Signup from "./components/Signup.jsx";
+import Profile from "./components/Profile.jsx";
+import Error from "./components/Error.jsx";
+import { createBrowserRouter, Link, RouterProvider } from "react-router-dom";
+import { Provider } from "react-redux";
+import Layout from "./components/Layout.jsx";
 const App = () => {
-  const user = useSelector((store) => store.user);
+  const routes = createBrowserRouter([
+    {
+      path: "/",
+      element: <Layout />,
+      children: [
+        {
+          path: "/",
+          element: <Feed />,
+        },
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+        {
+          path: "/login",
+          element: <Login />,
+        },
+        {
+          path: "/signup",
+          element: <Signup />,
+        },
+        {
+          path: "/userprofile",
+          element: <Profile />,
+        },
+      ],
+      errorElement: <Error />,
+    },
+  ]);
 
-  const fetch_user = async () => {
-    if (user) {
-      return null;
-    }
-    try {
-      const res = await axios.get(default_url + "/profile", {
-        withCredentials: true,
-      });
-
-      dispatch(adduser(res.data));
-    } catch (error) {
-      if (error.response.status === 400) {
-        navigate("/login");
-      }
-    }
-  };
-  useEffect(() => {
-    fetch_user();
-  }, []);
   return (
-    <>
-      <div>
-        <Header />
-        <Outlet />
-      </div>
-    </>
+    <Provider store={store}>
+      <RouterProvider router={routes} />
+    </Provider>
   );
 };
 

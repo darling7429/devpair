@@ -14,9 +14,9 @@ const Login = () => {
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   const [loading, setloading] = useState(false);
-  //const [error, seterror] = useState("");
+  const [error, seterror] = useState("");
   if (user) {
-    return null
+    return null;
   }
   const handleemail = (e) => {
     setemail(e.target.value);
@@ -47,10 +47,11 @@ const Login = () => {
           navigate("/");
         }
       } else {
-        alert("please check your credentials");
+        seterror("please check your credentials");
+        setloading(false);
       }
     } catch (error) {
-      alert(error?.response?.data);
+      seterror(error?.response?.data);
       setloading(false);
     }
   };
@@ -98,6 +99,7 @@ const Login = () => {
                 ""
               )}
             </div>
+            {error ? <p className="text-red-900 font-bold">{error}</p> : ""}
 
             <div className="my-5">
               <button
