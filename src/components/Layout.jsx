@@ -12,15 +12,17 @@ import axios from "axios";
 const Layout = () => {
   const user = useSelector((store) => store.user);
 
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const fetch_user = async () => {
-    if (!user?._id) {
+    if (!user) {
       try {
         const res = await axios.get(default_url + "/profile", {
           withCredentials: true,
         });
+      
 
         dispatch(adduser(res.data));
       } catch (error) {

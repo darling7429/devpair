@@ -17,7 +17,7 @@ const Header = () => {
 
   return (
     <div className="w-[100%]">
-      <div className="navbar shadow-sm bg-black">
+      <div className="navbar shadow-sm bg-base-300">
         <div className="flex-1">
           <Link className="btn btn-ghost text-xl text-white" to="/">
            🧑🏼‍💻 DevPair

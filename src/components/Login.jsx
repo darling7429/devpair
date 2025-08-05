@@ -63,7 +63,7 @@ const Login = () => {
       ) : (
         <div className=" w-[100%]   flex flex-col items-center justify-center">
           <form
-            className="bg-gray-300 w-[25%]     text-center rounded-lg p-2 mt-[9%]"
+            className="bg-base-300 w-[25%]     text-center rounded-lg p-2 mt-[9%]"
             onSubmit={handleform}>
             <div className="form_header pt-2">
               <p className="text-2xl font-bold capitalize">
