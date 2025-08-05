@@ -4,15 +4,18 @@ import { default_url } from "../utils/constants";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { adduser } from "../redux/slices/userslice";
+import Usercard from "./Usercard";
 
 const Profile = () => {
   const user = useSelector((store) => store.user);
   const [firstName, setfirstname] = useState("");
   const [lastName, setlastname] = useState("");
   const [age, setage] = useState("");
+  const [toast, showtoast] = useState(false);
 
   const [gender, setgender] = useState("");
   const [avatar, setavatar] = useState("");
+  const [error, seterror] = useState(" ");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -26,14 +29,22 @@ const Profile = () => {
   }, [user]);
 
   const editprofile = async () => {
-    const res = await axios.patch(
-      default_url + "/updateprofile",
-      { firstName, lastName, age, gender, avatar },
-      { withCredentials: true }
-    );
+    try {
+      seterror("");
+      const res = await axios.patch(
+        default_url + "/updateprofile",
+        { firstName, lastName, age, gender, avatar },
+        { withCredentials: true }
+      );
+      showtoast(true);
 
-    dispatch(adduser(res.data.data));
-    alert("user updated succesfully");
+      dispatch(adduser(res.data.data));
+      setTimeout(() => {
+        showtoast(false);
+      }, 3000);
+    } catch (error) {
+      seterror(error.response.data.message);
+    }
   };
   return (
     user && (
@@ -111,8 +122,18 @@ const Profile = () => {
               onClick={editprofile}>
               Save Changes
             </button>
+            <div className="text-center text-red-800">{error}</div>
           </div>
         </div>
+        {toast ? (
+          <div className="toast toast-top toast-center">
+            <div className="alert alert-success">
+              <span>user updated successfully</span>
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
       </>
     )
   );

@@ -32,6 +32,9 @@ const App = () => {
           path: "/userprofile",
           element: <Profile />,
         },
+        {
+          path:"/sendconnection/:status/:userid"
+        }
       ],
       errorElement: <Error />,
     },

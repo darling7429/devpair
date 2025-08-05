@@ -10,6 +10,7 @@ const Feed = () => {
   const feeddata = useSelector((store) => store.feed);
 
   const feedapi = async () => {
+    alert("feed api called")
     try {
       const data = await axios.get(default_url + "/feed", {
         withCredentials: true,
@@ -26,7 +27,7 @@ const Feed = () => {
   }, []);
   return (
     <div className="flex flex-col justify-center items-center">
-      <Usercard data={feeddata} />
+      <Usercard data={feeddata} updatefeed={feedapi} />
     </div>
   );
 };

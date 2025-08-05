@@ -25,6 +25,7 @@ const Header = () => {
         </div>
         {user ? (
           <div className="flex items-center gap-2 mx-16">
+            <Link to="/requests">Requests</Link>
             {user ? (
               <p className="text-white">
                 welcome <b>{user.firstName + " " + user.lastName}</b>
@@ -56,7 +57,7 @@ const Header = () => {
                   </Link>
                 </li>
                 <li>
-                  <a>Settings</a>
+                 <Link>connections</Link>
                 </li>
                 <li onClick={handlelogout}>
                   <a>Logout</a>
