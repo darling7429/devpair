@@ -10,12 +10,10 @@ const Feed = () => {
   const feeddata = useSelector((store) => store.feed);
 
   const feedapi = async () => {
-    alert("feed api called")
     try {
       const data = await axios.get(default_url + "/feed", {
         withCredentials: true,
       });
-      console.log(data);
 
       dispatch(profiles(data.data));
     } catch (error) {

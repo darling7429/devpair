@@ -9,6 +9,8 @@ import Error from "./components/Error.jsx";
 import { createBrowserRouter, Link, RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
 import Layout from "./components/Layout.jsx";
+import Requests from "./components/Requests.jsx";
+import Connections from "./components/Connections.jsx";
 const App = () => {
   const routes = createBrowserRouter([
     {
@@ -33,8 +35,13 @@ const App = () => {
           element: <Profile />,
         },
         {
-          path:"/sendconnection/:status/:userid"
-        }
+          path: "/myrequests",
+          element: <Requests />,
+        },
+        {
+          path: "/myconnections",
+          element: <Connections />,
+        },
       ],
       errorElement: <Error />,
     },

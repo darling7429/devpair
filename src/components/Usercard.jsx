@@ -51,13 +51,14 @@ const Usercard = (props) => {
                 }}>
                 Ignore
               </button>
-              {/* <Link to={`/sendconnection/${interested}/${data._id}`}><button
+
+              <button
                 className="btn btn-primary text-white"
                 onClick={() => {
                   interested(data.firstName);
                 }}>
                 interested
-              </button></Link> */}
+              </button>
             </div>
           </div>
         );

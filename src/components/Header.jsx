@@ -20,12 +20,11 @@ const Header = () => {
       <div className="navbar shadow-sm bg-base-300">
         <div className="flex-1">
           <Link className="btn btn-ghost text-xl text-white" to="/">
-           🧑🏼‍💻 DevPair
+            🧑🏼‍💻 DevPair
           </Link>
         </div>
         {user ? (
           <div className="flex items-center gap-2 mx-16">
-            <Link to="/requests">Requests</Link>
             {user ? (
               <p className="text-white">
                 welcome <b>{user.firstName + " " + user.lastName}</b>
@@ -57,7 +56,12 @@ const Header = () => {
                   </Link>
                 </li>
                 <li>
-                 <Link>connections</Link>
+                  <Link className="justify-between" to="/myrequests">
+                    Review requests
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/myconnections">connections</Link>
                 </li>
                 <li onClick={handlelogout}>
                   <a>Logout</a>
